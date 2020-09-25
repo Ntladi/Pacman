@@ -1,6 +1,7 @@
 #ifndef PRESENTATION_H_
 #define PRESENTATION_H_
 #include "SFML/Graphics.hpp"
+#include "Direction.h"
 #include <iostream>
 
 class Presentation
@@ -11,7 +12,9 @@ public:
 	void handleEvents();
 	void render();
 private:
-	void setEvent();
+	void setEvent(const int & code);
+private:
+	Direction direction_;
 	const int screenWidth_;
 	const int screenHeight_;
 	sf::RenderWindow window_;
