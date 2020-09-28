@@ -111,3 +111,8 @@ TEST_CASE("Entity Tests")
 		CHECK(entity.isAlive() == true);
 	}
 }
+
+TEST_CASE("Pacman Tests")
+{
+
+}
