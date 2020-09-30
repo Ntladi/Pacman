@@ -22,6 +22,16 @@ Entity::Entity(const Coordinates & position, const Coordinates & dimentions) :
 	setHitbox(position.getX(), position.getY());
 }
 
+Coordinates Entity::getPosition() const
+{
+	return hitBox_.topLeft;
+}
+
+Coordinates Entity::getDimentions() const
+{
+	return Coordinates{width_,length_};
+}
+
 HitBox Entity::getVerticies() const
 {
 	return hitBox_;

@@ -61,10 +61,9 @@ TEST_CASE("Coordinate Tests")
 
 TEST_CASE("Entity Tests")
 {
-	SUBCASE("A default entity object is initialised correctly")
+	SUBCASE("A default entity's vertices are returned correctly")
 	{
 		auto entity = Entity {};
-		CHECK(entity.isAlive() == true);
 		CHECK(entity.getVerticies().topLeft.getX() == 0);
 		CHECK(entity.getVerticies().topLeft.getY() == 0);
 		CHECK(entity.getVerticies().topRight.getX() == 1);
@@ -75,14 +74,20 @@ TEST_CASE("Entity Tests")
 		CHECK(entity.getVerticies().bottomRight.getY() == 1);
 	}
 
-	SUBCASE("An entity object is initialized correctly")
+	SUBCASE("A default entity's position is returned correctly")
+	{
+		auto entity = Entity {};
+		CHECK(entity.getPosition().getX() == 0);
+		CHECK(entity.getPosition().getY() == 0);
+	}
+
+	SUBCASE("An entity's vertices are initialized correctly")
 	{
 		auto x = 3.6f;
 		auto y = 5.2f;
 		auto width = 6.9f;
 		auto length = 5.6f;
 		auto entity = Entity {Coordinates{x, y}, Coordinates{width, length}};
-		CHECK(entity.isAlive() == true);
 		CHECK(entity.getVerticies().topLeft.getX() == x);
 		CHECK(entity.getVerticies().topLeft.getY() == y);
 		CHECK(entity.getVerticies().topRight.getX() == x + width);
@@ -91,6 +96,18 @@ TEST_CASE("Entity Tests")
 		CHECK(entity.getVerticies().bottomLeft.getY() == y + length);
 		CHECK(entity.getVerticies().bottomRight.getX() == x + width);
 		CHECK(entity.getVerticies().bottomRight.getY() == y + length);
+	}
+
+	SUBCASE("An entity's position is initialized correctly")
+	{
+		auto x = 3.6f;
+		auto y = 5.2f;
+		auto width = 6.9f;
+		auto length = 5.6f;
+		auto entity = Entity {Coordinates{x, y}, Coordinates{width, length}};
+		CHECK(entity.getPosition().getX() == x);
+		CHECK(entity.getPosition().getY() == y);
+
 	}
 
 	SUBCASE("An entity can be killed")

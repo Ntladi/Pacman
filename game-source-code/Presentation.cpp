@@ -1,7 +1,7 @@
 #include "Presentation.h"
 
-Presentation::Presentation(const int &width, const int &height) :
-		direction_(Direction::LEFT), screenWidth_(width), screenHeight_(height)
+Presentation::Presentation(const Coordinates & screenDimentions) :
+		direction_(Direction::LEFT), screenWidth_(screenDimentions.getX()), screenHeight_(screenDimentions.getY())
 {
 	window_.create(sf::VideoMode(screenWidth_, screenHeight_), "Super-Pacman");
 }
@@ -11,7 +11,7 @@ bool Presentation::isWindowOpen() const
 	return window_.isOpen();
 }
 
-void Presentation::handleEvents()
+Direction Presentation::getKeyInputs()
 {
 	auto event = sf::Event {};
 
@@ -30,16 +30,31 @@ void Presentation::handleEvents()
 			break;
 		}
 	}
+
+	return direction_;
+}
+
+void Presentation::drawWalls(const Entity & wall)
+{
+	wall_.setFillColor(sf::Color::White);
+	wall_.setPosition(wall.getPosition().getX(), wall.getPosition().getY());
+	wall_.setSize(sf::Vector2f(wall.getDimentions().getX(), wall.getDimentions().getY()));
+	window_.draw(wall_);
 }
 
 void Presentation::render()
 {
-	window_.clear(sf::Color::Black);
 	// Draw stuff you're gonna pass in later
 	window_.display();
+	window_.clear(sf::Color::Black);
 }
 
-void Presentation::setEvent(const int & code)
+Coordinates Presentation::getScreenDimentions() const
+{
+	return Coordinates {screenWidth_, screenHeight_};
+}
+
+void Presentation::setEvent(const int &code)
 {
 	switch (code)
 	{

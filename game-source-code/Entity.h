@@ -21,6 +21,8 @@ public:
 	bool isAlive() const;
 	void kill();
 	void resurrect();
+	Coordinates getPosition() const;
+	Coordinates getDimentions() const;
 	HitBox getVerticies() const;
 protected:
 	void setHitbox(const float & xPos, const float & yPos);
