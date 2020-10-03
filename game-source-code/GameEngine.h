@@ -2,6 +2,7 @@
 #define GAMEENGINE_H_
 #include "Presentation.h"
 #include "Coordinates.h"
+#include "Fruits.h"
 #include "Maze.h"
 
 class GameEngine
@@ -13,6 +14,7 @@ private:
 	Presentation presentation_;
 	Grid grid_;
 	Maze maze_;
+	Fruits fruits_;
 };
 
 #endif

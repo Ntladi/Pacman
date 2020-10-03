@@ -14,7 +14,7 @@ public:
 private:
 	Grid grid_;
 	const float width_;
-	const float length_;
+	const float height_;
 	const float xOffset_;
 	const float yOffset_;
 	EntityVec fruitCoords_;

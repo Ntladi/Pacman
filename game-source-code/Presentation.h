@@ -13,16 +13,19 @@ public:
 	bool isWindowOpen() const;
 	Direction getKeyInputs();
 	Coordinates getScreenDimentions() const;
-	void drawWalls(const Entity & wall);
+	void drawWall(const Entity & wall);
+	void drawFruit(const Entity & wall);
 	void render();
 private:
-	void setEvent(const int & code);
+	void setDirection();
 private:
 	Direction direction_;
 	const float screenWidth_;
 	const float screenHeight_;
 	sf::RenderWindow window_;
 	sf::RectangleShape wall_;
+	sf::RectangleShape fruit_;
+	sf::RectangleShape pacMan_;
 };
 
 #endif

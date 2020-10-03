@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "Grid.h"
 #include "Maze.h"
+#include "Fruits.h"
 
 TEST_CASE("Coordinate Tests")
 {
@@ -222,16 +223,35 @@ TEST_CASE("Static Object Tests")
 {
 	auto file = std::ifstream("Maze.txt");
 	auto grid = Grid(Coordinates(23,25), Coordinates(920,750), file);
-	auto maze = Maze(grid);
 
 	SUBCASE("The correct number of maze wall objects is returned is returned")
 	{
-		CHECK(maze.getWalls().size() == 355);
+		auto maze = Maze(grid);
+		auto counter = 0;
+		for(auto mat: grid.getMatrix())
+			for(auto index: mat)
+			{
+				if(index == 1 || index == 2)
+					counter ++;
+				if(index == 3 || index == 4 ||
+				   index == 5 || index == 6)
+					counter +=2;
+			}
+
+		CHECK(maze.getWalls().size() == counter);
 	}
 
 	SUBCASE("The correct number of fruit objects is returned")
 	{
+		auto fruits = Fruits(grid);
+		auto counter = 0;
 
+		for(auto mat: grid.getMatrix())
+			for(auto index: mat)
+				if(index == 7)
+					counter++;
+
+		CHECK(fruits.getFruits().size() == counter);
 	}
 }
 

@@ -4,6 +4,9 @@ Presentation::Presentation(const Coordinates & screenDimentions) :
 		direction_(Direction::LEFT), screenWidth_(screenDimentions.getX()), screenHeight_(screenDimentions.getY())
 {
 	window_.create(sf::VideoMode(screenWidth_, screenHeight_), "Super-Pacman");
+	pacMan_.setFillColor(sf::Color::Yellow);
+	pacMan_.setSize(sf::Vector2f(20,20));
+	pacMan_.setPosition(440, 330);
 }
 
 bool Presentation::isWindowOpen() const
@@ -22,19 +25,17 @@ Direction Presentation::getKeyInputs()
 		case sf::Event::Closed:
 			window_.close();
 			break;
-		case sf::Event::KeyPressed:
-			std::cout << "Pressed" << std::endl;
-			setEvent(event.key.code);
-			break;
 		default:
 			break;
 		}
 	}
 
+	setDirection();
+
 	return direction_;
 }
 
-void Presentation::drawWalls(const Entity & wall)
+void Presentation::drawWall(const Entity & wall)
 {
 	wall_.setFillColor(sf::Color::White);
 	wall_.setPosition(wall.getPosition().getX(), wall.getPosition().getY());
@@ -42,9 +43,18 @@ void Presentation::drawWalls(const Entity & wall)
 	window_.draw(wall_);
 }
 
+void Presentation::drawFruit(const Entity & fruit)
+{
+	fruit_.setFillColor(sf::Color::Magenta);
+	fruit_.setPosition(fruit.getPosition().getX(), fruit.getPosition().getY());
+	fruit_.setSize(sf::Vector2f(fruit.getDimentions().getX(), fruit.getDimentions().getY()));
+	window_.draw(fruit_);
+}
+
 void Presentation::render()
 {
 	// Draw stuff you're gonna pass in later
+	window_.draw(pacMan_);
 	window_.display();
 	window_.clear(sf::Color::Black);
 }
@@ -54,23 +64,31 @@ Coordinates Presentation::getScreenDimentions() const
 	return Coordinates {screenWidth_, screenHeight_};
 }
 
-void Presentation::setEvent(const int &code)
+void Presentation::setDirection()
 {
-	switch (code)
+	auto x = pacMan_.getPosition().x;
+	auto y = pacMan_.getPosition().y;
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-	case sf::Keyboard::Up:
 		direction_ = Direction::UP;
-		break;
-	case sf::Keyboard::Down:
-		direction_ = Direction::DOWN;
-		break;
-	case sf::Keyboard::Left:
-		direction_ = Direction::LEFT;
-		break;
-	case sf::Keyboard::Right:
-		direction_ = Direction::RIGHT;
-		break;
-	default:
-		break;
+		y = y - 1;
 	}
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	{
+		direction_ = Direction::DOWN;
+		y = y + 1;
+	}
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		direction_ = Direction::LEFT;
+		x = x - 1;
+	}
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		direction_ = Direction::RIGHT;
+		x = x + 1;
+	}
+
+	pacMan_.setPosition(x, y);
 }
