@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 
-GameEngine::GameEngine(const Coordinates & gridSize, const Coordinates & screenDimentions) :
-		presentation_(screenDimentions), maze_(gridSize, screenDimentions)
+GameEngine::GameEngine(const Coordinates & gridSize, const Coordinates & screenDimentions, ifstream & mazeFile) :
+		presentation_(screenDimentions), grid_(gridSize, screenDimentions,mazeFile), maze_(grid_)
 {
 }
 

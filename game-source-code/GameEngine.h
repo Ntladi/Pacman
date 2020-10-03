@@ -7,10 +7,11 @@
 class GameEngine
 {
 public:
-	GameEngine(const Coordinates & gridSize, const Coordinates & screenDimentions);
+	GameEngine(const Coordinates & gridSize, const Coordinates & screenDimentions, ifstream & mazeFile);
 	void runGame();
 private:
 	Presentation presentation_;
+	Grid grid_;
 	Maze maze_;
 };
 
