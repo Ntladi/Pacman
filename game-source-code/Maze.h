@@ -1,7 +1,6 @@
 #ifndef MAZE_H_
 #define MAZE_H_
 #include <vector>
-#include "Coordinates.h"
 #include "Entity.h"
 #include "Grid.h"
 using namespace std;
@@ -21,8 +20,6 @@ private:
 	const float xOffset_;
 	const float yOffset_;
 	EntityVec wallCoords_;
-	void readMaze(ifstream & mazeFile);
-	void resizeMatrix(const int &width, const int &height);
 	void generateMaze();
 	void generateWall(const int & row, const int & col);
 	void horizontalWall(const int & row, const int & col);

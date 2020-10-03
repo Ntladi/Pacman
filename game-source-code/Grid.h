@@ -1,8 +1,8 @@
 #ifndef GRID_H_
 #define GRID_H_
-#include "Coordinates.h"
 #include <fstream>
 #include <vector>
+#include "Coordinates.h"
 using namespace std;
 using Matrix = vector<vector<int> >;
 
