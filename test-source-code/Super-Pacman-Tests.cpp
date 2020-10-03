@@ -3,6 +3,7 @@
 #include <fstream>
 #include "Coordinates.h"
 #include "Entity.h"
+#include "Grid.h"
 #include "Maze.h"
 
 TEST_CASE("Coordinate Tests")
@@ -131,7 +132,7 @@ TEST_CASE("Entity Tests")
 	}
 }
 
-TEST_CASE("Maze Tests")
+TEST_CASE("Grid Tests")
 {
 	auto gridSize = Coordinates(23,25);
 	auto screenDimentions = Coordinates(920,750);
@@ -144,76 +145,93 @@ TEST_CASE("Maze Tests")
 	}
 
 	auto file = std::ifstream("Maze.txt");
-	auto maze = Maze(gridSize, screenDimentions, file);
+	auto grid = Grid(gridSize, screenDimentions, file);
 
 	SUBCASE("The grid dimentions are prperly set")
 	{
-		auto grid = maze.getMatrix();
-		CHECK(grid.size() == 25); // Rows
-		CHECK(grid.at(0).size() == 23); //Columns
+		auto matrix = grid.getMatrix();
+		CHECK(matrix.size() == 25); // Rows
+		CHECK(matrix.at(0).size() == 23); //Columns
 	}
 
 	SUBCASE("The screen dimensions of a grid block are returned properly")
 	{
-		auto dimensions = maze.getBlockDimentions();
+		auto dimensions = grid.getBlockDimentions();
 		CHECK(dimensions.getX() == 40);
 		CHECK(dimensions.getY() == 30);
 	}
 
 	SUBCASE("A block's screen coordinates can be converted to a grid position")
 	{
-		auto position = maze.convertToGridPos(0, 0);
+		auto position = grid.convertToGridPos(0, 0);
 		CHECK(position.getX() == 0);
 		CHECK(position.getY() == 0);
 
-		position = maze.convertToGridPos(40, 30);
+		position = grid.convertToGridPos(40, 30);
 		CHECK(position.getX() == 1);
 		CHECK(position.getY() == 1);
 
-		position = maze.convertToGridPos(79, 59);
+		position = grid.convertToGridPos(79, 59);
 		CHECK(position.getX() == 1);
 		CHECK(position.getY() == 1);
 
-		position = maze.convertToGridPos(79.999, 59.999);
+		position = grid.convertToGridPos(79.999, 59.999);
 		CHECK(position.getX() == 1);
 		CHECK(position.getY() == 1);
 
-		position = maze.convertToGridPos(80, 60);
+		position = grid.convertToGridPos(80, 60);
 		CHECK(position.getX() == 2);
 		CHECK(position.getY() == 2);
 
-		position = maze.convertToGridPos(120, 60);
+		position = grid.convertToGridPos(120, 60);
 		CHECK(position.getX() == 3);
 		CHECK(position.getY() == 2);
 
-		position = maze.convertToGridPos(910, 740);
+		position = grid.convertToGridPos(910, 740);
 		CHECK(position.getX() == 22);
 		CHECK(position.getY() == 24);
 	}
 
 	SUBCASE("A block's grid position can be converted to screen coordinates")
 	{
-		auto position = maze.convertToScreenPos(0, 0);
+		auto position = grid.convertToScreenPos(0, 0);
 		CHECK(position.getX() == 0);
 		CHECK(position.getY() == 0);
 
-		position = maze.convertToScreenPos(1, 1);
+		position = grid.convertToScreenPos(1, 1);
 		CHECK(position.getX() == 40);
 		CHECK(position.getY() == 30);
 
-		position = maze.convertToScreenPos(2, 1);
+		position = grid.convertToScreenPos(2, 1);
 		CHECK(position.getX() == 40);
 		CHECK(position.getY() == 60);
 
-		position = maze.convertToScreenPos(1, 2);
+		position = grid.convertToScreenPos(1, 2);
 		CHECK(position.getX() == 80);
 		CHECK(position.getY() == 30);
 
-		position = maze.convertToScreenPos(24, 22);
+		position = grid.convertToScreenPos(24, 22);
 		CHECK(position.getX() == 880);
 		CHECK(position.getY() == 720);
 	}
 
 	file.close();
+}
+
+TEST_CASE("Static Object Tests")
+{
+	auto file = std::ifstream("Maze.txt");
+	auto grid = Grid(Coordinates(23,25), Coordinates(920,750), file);
+	auto maze = Maze(grid);
+
+	SUBCASE("The correct number of maze wall objects is returned is returned")
+	{
+		CHECK(maze.getWalls().size() == 355);
+	}
+
+	SUBCASE("The correct number of fruit objects is returned")
+	{
+
+	}
 }
 
