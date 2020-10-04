@@ -224,7 +224,7 @@ TEST_CASE("Static Object Tests")
 	auto file = std::ifstream("Maze.txt");
 	auto grid = Grid(Coordinates(23,25), Coordinates(920,750), file);
 
-	SUBCASE("The correct number of maze wall objects is returned is returned")
+	SUBCASE("The correct number of maze wall objects is returned")
 	{
 		auto maze = Maze(grid);
 		auto counter = 0;
@@ -255,3 +255,7 @@ TEST_CASE("Static Object Tests")
 	}
 }
 
+TEST_CASE("Pacman Tests")
+{
+
+}

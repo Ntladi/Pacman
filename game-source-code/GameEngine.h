@@ -4,6 +4,7 @@
 #include "Coordinates.h"
 #include "Fruits.h"
 #include "Maze.h"
+#include "Pacman.h"
 
 class GameEngine
 {
@@ -15,6 +16,7 @@ private:
 	Grid grid_;
 	Maze maze_;
 	Fruits fruits_;
+	Pacman pacman_;
 };
 
 #endif

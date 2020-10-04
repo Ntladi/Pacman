@@ -1,7 +1,8 @@
 #include "GameEngine.h"
 
 GameEngine::GameEngine(const Coordinates & gridSize, const Coordinates & screenDimentions, ifstream & mazeFile) :
-		presentation_(screenDimentions), grid_(gridSize, screenDimentions,mazeFile), maze_(grid_), fruits_(grid_)
+		presentation_(screenDimentions), grid_(gridSize, screenDimentions,mazeFile), maze_(grid_), fruits_(grid_),
+		pacman_(grid_)
 {
 }
 
@@ -9,6 +10,7 @@ void GameEngine::runGame()
 {
 	auto walls = maze_.getWalls();
 	auto fruits = fruits_.getFruits();
+
 	while(presentation_.isWindowOpen())
 	{
 		presentation_.getKeyInputs();
