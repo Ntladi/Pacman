@@ -6,6 +6,7 @@
 #include "Grid.h"
 #include "Maze.h"
 #include "Fruits.h"
+#include "SeparatingAxisTheorem.h"
 
 TEST_CASE("Coordinate Tests")
 {
@@ -23,14 +24,7 @@ TEST_CASE("Coordinate Tests")
 		CHECK(coordinates.getY() == 6.8f);
 	}
 
-	SUBCASE("A coordinate object cannot be initialized with negative values")
-	{
-		CHECK_THROWS_AS(Coordinates(-3.1f, 6.8f), InvalidCoordinates);
-		CHECK_THROWS_AS(Coordinates(3.1f, -6.8f), InvalidCoordinates);
-		CHECK_THROWS_AS(Coordinates(-3.1f, -6.8f), InvalidCoordinates);
-	}
-
-	SUBCASE("The x-coordinate can be changed")
+	SUBCASE("The x-coordinate is set correctly")
 	{
 		auto coordinates = Coordinates{2.5f, 9.3f};
 		coordinates.setX(4.5f);
@@ -38,7 +32,7 @@ TEST_CASE("Coordinate Tests")
 		CHECK(coordinates.getY() == 9.3f);
 	}
 
-	SUBCASE("The y-coordinate can be changed")
+	SUBCASE("The y-coordinate is set correctly")
 	{
 		auto coordinates = Coordinates{8.9f, 16.8f};
 		coordinates.setY(32.5f);
@@ -46,21 +40,6 @@ TEST_CASE("Coordinate Tests")
 		CHECK(coordinates.getY() == 32.5f);
 	}
 
-	SUBCASE("The x-coordinate cannot be changed to a negative value")
-	{
-		auto coordinates = Coordinates{18.5f, 11.7f};
-		coordinates.setX(-16.7f);
-		CHECK(coordinates.getX() == 18.5f);
-		CHECK(coordinates.getY() == 11.7f);
-	}
-
-	SUBCASE("The y-coordinate cannot be changed to a negative value")
-	{
-		auto coordinates = Coordinates{52.8f, 39.6f};
-		coordinates.setY(-88.5f);
-		CHECK(coordinates.getX() == 52.8f);
-		CHECK(coordinates.getY() == 39.6f);
-	}
 }
 
 TEST_CASE("Entity Tests")
@@ -253,9 +232,47 @@ TEST_CASE("Static Object Tests")
 
 		CHECK(fruits.getFruits().size() == counter);
 	}
+
+	file.close();
 }
 
-TEST_CASE("Pacman Tests")
+TEST_CASE("Collision Tests")
 {
 
+	auto collisions = SeparatingAxisTheorem{};
+	SUBCASE("Objects not overlapping are not colliding")
+	{
+		auto entity1 = Entity{Coordinates{10,10},Coordinates{10,10}};
+		auto entity2 = Entity{Coordinates{30,10},Coordinates{10,10}};
+
+		CHECK_FALSE(collisions.isOverlapping(entity1.getVerticies(), entity2.getVerticies()));
+		CHECK_FALSE(collisions.isOverlapping(entity2.getVerticies(), entity1.getVerticies()));
+	}
+
+	SUBCASE("Overlapping objects are colliding")
+	{
+		auto entity1 = Entity{Coordinates{10,10},Coordinates{10,10}};
+		auto entity2 = Entity{Coordinates{15,15},Coordinates{10,10}};
+
+		CHECK(collisions.isOverlapping(entity1.getVerticies(), entity2.getVerticies()));
+		CHECK(collisions.isOverlapping(entity2.getVerticies(), entity1.getVerticies()));
+	}
+
+	SUBCASE("Overlapping objects of different sizes are colliding")
+	{
+		auto entity1 = Entity{Coordinates{13,15},Coordinates{12,5}};
+		auto entity2 = Entity{Coordinates{16,18},Coordinates{2,7}};
+
+		CHECK(collisions.isOverlapping(entity1.getVerticies(), entity2.getVerticies()));
+		CHECK(collisions.isOverlapping(entity2.getVerticies(), entity1.getVerticies()));
+	}
+
+	SUBCASE("Objects that are barely touching are colliding")
+	{
+		auto entity1 = Entity{Coordinates{36,9},Coordinates{8,5}};
+		auto entity2 = Entity{Coordinates{44,11},Coordinates{13,7}};
+
+		CHECK(collisions.isOverlapping(entity1.getVerticies(), entity2.getVerticies()));
+		CHECK(collisions.isOverlapping(entity2.getVerticies(), entity1.getVerticies()));
+	}
 }

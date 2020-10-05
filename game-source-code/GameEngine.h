@@ -5,6 +5,7 @@
 #include "Fruits.h"
 #include "Maze.h"
 #include "Pacman.h"
+#include "SeparatingAxisTheorem.h"
 
 class GameEngine
 {
@@ -17,6 +18,7 @@ private:
 	Maze maze_;
 	Fruits fruits_;
 	Pacman pacman_;
+	SeparatingAxisTheorem collissions_;
 };
 
 #endif

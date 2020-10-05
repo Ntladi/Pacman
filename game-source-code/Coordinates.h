@@ -1,8 +1,6 @@
 #ifndef COORDINATES_H_
 #define COORDINATES_H_
 
-class InvalidCoordinates{};
-
 class Coordinates
 {
 public:

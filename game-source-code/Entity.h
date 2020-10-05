@@ -11,6 +11,8 @@ struct HitBox
 };
 
 class InvalidDimentions{};
+class InvalidCoordinates{};
+
 
 class Entity
 {
